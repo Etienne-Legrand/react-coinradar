@@ -67,7 +67,7 @@ export function CoinList() {
       <div className="overflow-x-auto">
         <table className="min-w-full">
           <thead>
-            <tr className="border-b dark:border-gray-700">
+            <tr className="border-b border-gray-300 dark:border-gray-700">
               <th className="py-2 px-4 text-left dark:text-white">#</th>
               <th className="py-2 px-4 text-left dark:text-white">Nom</th>
               <th className="py-2 px-4 text-right dark:text-white">Prix</th>

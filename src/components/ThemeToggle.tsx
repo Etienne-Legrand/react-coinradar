@@ -6,10 +6,10 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="h-10 w-10 flex items-center justify-center rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200"
+      className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border border-gray-200 bg-gray-50 transition-all duration-200 hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
       aria-label="Toggle theme"
     >
-      <span className="text-lg leading-none -mt-0.5">
+      <span className="-mt-0.5 text-lg leading-none">
         {theme === "dark" ? "🔆" : "🔅"}
       </span>
     </button>

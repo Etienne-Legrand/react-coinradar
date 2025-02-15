@@ -11,15 +11,15 @@ export function CurrencySelect({ value, onChange }: CurrencySelectProps) {
       <select
         value={value}
         onChange={(e) => onChange(e.target.value as Currency)}
-        className="h-10 cursor-pointer appearance-none bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 pr-10 text-sm font-medium text-gray-700 dark:text-gray-200 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-all"
+        className="h-10 cursor-pointer appearance-none rounded-lg border border-gray-200 bg-gray-50 px-3 pr-8 text-sm font-medium text-gray-700 transition-all hover:bg-gray-200 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
       >
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
         <option value="BTC">BTC</option>
       </select>
-      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500 dark:text-gray-400">
+      <div className="pointer-events-none absolute inset-0 right-2.5 mt-0.5 flex items-center justify-end text-gray-500 dark:text-gray-500">
         <svg
-          className="w-4 h-4"
+          className="h-4 w-4"
           fill="none"
           strokeLinecap="round"
           strokeLinejoin="round"

@@ -4,8 +4,10 @@ import { CoinList } from "./components/CoinList";
 function App() {
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-200">
-        <CoinList />
+      <div className="min-h-screen bg-white font-sans transition-colors duration-200 dark:bg-gray-900">
+        <div className="max-w-dvh m-auto">
+          <CoinList />
+        </div>
       </div>
     </ThemeProvider>
   );

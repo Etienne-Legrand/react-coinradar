@@ -20,7 +20,8 @@ export function CoinRow({ coin, index, currency }: CoinRowProps) {
 
   const formatPercent = (num: number | null | undefined) => {
     if (num == null) return "N/A";
-    return num.toFixed(2) + "%";
+    const arrow = num >= 0 ? "⏶" : "⏷";
+    return `${arrow}${Math.abs(num).toFixed(2)}%`;
   };
 
   // Helper pour vérifier si un nombre est positif
@@ -29,40 +30,54 @@ export function CoinRow({ coin, index, currency }: CoinRowProps) {
   };
 
   return (
-    <tr className="border-b font-medium dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
-      <td className="py-2 px-4 dark:text-gray-300">{index + 1}</td>
-      <td className="py-2 px-4">
+    <tr className="border-b border-gray-300 font-medium hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800">
+      <td className="px-4 py-2 text-gray-500 dark:text-gray-300">
+        {index + 1}
+      </td>
+      {/* Nom */}
+      <td className="px-4 py-2">
         <div className="flex items-center">
-          <img src={coin.imageUrl} alt={coin.symbol} className="w-6 h-6 mr-2" />
+          <img
+            src={coin.imageUrl}
+            alt={coin.symbol}
+            className="mr-2 h-6 w-6 rounded-full"
+          />
           <span className="dark:text-white">{coin.name}</span>
-          <span className="ml-2 text-gray-400 text-sm">{coin.symbol}</span>
+          <span className="text- ml-2 font-normal text-gray-500 dark:text-gray-400">
+            {coin.symbol}
+          </span>
         </div>
       </td>
-      <td className="py-2 px-4 text-right dark:text-white">
+      {/* Prix */}
+      <td className="px-4 py-2 text-right dark:text-white">
         {formatNumber(coin.price)}
       </td>
+      {/* 1h % */}
       <td
         className={`py-2 px-4 text-right ${
-          isPositive(coin.change1h) ? "text-green-500" : "text-red-500"
+          isPositive(coin.change1h) ? "text-emerald-400" : "text-rose-500"
         }`}
       >
         {formatPercent(coin.change1h)}
       </td>
+      {/* 24h % */}
       <td
         className={`py-2 px-4 text-right ${
-          isPositive(coin.change24h) ? "text-green-500" : "text-red-500"
+          isPositive(coin.change24h) ? "text-emerald-400" : "text-rose-500"
         }`}
       >
         {formatPercent(coin.change24h)}
       </td>
+      {/* 7j % */}
       <td
         className={`py-2 px-4 text-right ${
-          isPositive(coin.change7j) ? "text-green-500" : "text-red-500"
+          isPositive(coin.change7j) ? "text-emerald-400" : "text-rose-500"
         }`}
       >
         {formatPercent(coin.change7j)}
       </td>
-      <td className="py-2 px-4 flex items-center justify-end">
+      {/* 7 Derniers Jours */}
+      <td className="flex items-center justify-end px-4 py-2">
         <SparklineChart data={coin.sparklineData} change={coin.change7j} />
       </td>
     </tr>

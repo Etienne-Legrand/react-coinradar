@@ -24,7 +24,7 @@ interface SparklineChartProps {
 }
 
 export function SparklineChart({ data, change }: SparklineChartProps) {
-  const color = change >= 0 ? "#10B981" : "#EF4444";
+  const color = change >= 0 ? "#00d492" : "#ff2056";
 
   const options = {
     responsive: true,
