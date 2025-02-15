@@ -1,8 +1,13 @@
+import { ThemeProvider } from "./context/ThemeContext";
+import { CoinList } from "./components/CoinList";
+
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <h1 className="text-3xl font-bold text-center py-8">React CoinRadar</h1>
-    </div>
+    <ThemeProvider>
+      <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-200">
+        <CoinList />
+      </div>
+    </ThemeProvider>
   );
 }
 

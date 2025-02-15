@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "CoinRadar",
+  "version": "1.0",
+  "description": "Suivez les crypto en temps réel",
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": ["storage"]
+}
