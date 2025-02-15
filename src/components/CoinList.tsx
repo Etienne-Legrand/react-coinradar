@@ -57,7 +57,7 @@ export function CoinList() {
 
   return (
     <div className="p-4">
-      <div className="flex items-center justify-between mb-6">
+      <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold dark:text-white">Top 10 Crypto</h1>
         <div className="flex items-center gap-3">
           <CurrencySelect value={currency} onChange={setCurrency} />
@@ -68,13 +68,13 @@ export function CoinList() {
         <table className="min-w-full">
           <thead>
             <tr className="border-b border-gray-300 dark:border-gray-700">
-              <th className="py-2 px-4 text-left dark:text-white">#</th>
-              <th className="py-2 px-4 text-left dark:text-white">Nom</th>
-              <th className="py-2 px-4 text-right dark:text-white">Prix</th>
-              <th className="py-2 px-4 text-right dark:text-white">1h %</th>
-              <th className="py-2 px-4 text-right dark:text-white">24h %</th>
-              <th className="py-2 px-4 text-right dark:text-white">7j %</th>
-              <th className="py-2 px-4 text-right dark:text-white">
+              <th className="px-4 py-2 text-left dark:text-white">#</th>
+              <th className="px-4 py-2 text-left dark:text-white">Nom</th>
+              <th className="px-4 py-2 text-right dark:text-white">Prix</th>
+              <th className="px-4 py-2 text-right dark:text-white">1h %</th>
+              <th className="px-4 py-2 text-right dark:text-white">24h %</th>
+              <th className="px-4 py-2 text-right dark:text-white">7j %</th>
+              <th className="px-4 py-2 text-right dark:text-white">
                 7 Derniers Jours
               </th>
             </tr>
