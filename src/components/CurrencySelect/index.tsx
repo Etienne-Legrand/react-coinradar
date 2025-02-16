@@ -22,9 +22,10 @@ export function CurrencySelect({ value, onChange }: CurrencySelectProps) {
 
   return (
     <div className="relative min-w-[150px]" ref={ref}>
+      {/* Currency select button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex h-10 w-full items-center justify-between rounded-lg border border-gray-200 bg-gray-50 px-3 text-sm font-medium text-gray-700 transition-all hover:border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:border-gray-600"
+        className="flex h-10 w-full cursor-pointer items-center justify-between rounded-lg border border-gray-200 bg-gray-50 px-3 text-sm font-medium text-gray-700 transition-all hover:bg-gray-200 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
       >
         <div className="flex items-center truncate">
           <img
@@ -49,6 +50,7 @@ export function CurrencySelect({ value, onChange }: CurrencySelectProps) {
         </svg>
       </button>
 
+      {/* Currency options */}
       {isOpen && (
         <div className="absolute left-0 right-0 top-12 z-10 space-y-1 rounded-lg border border-gray-200 bg-white p-1 shadow-lg dark:border-gray-700 dark:bg-gray-800">
           {(Object.keys(currencies) as Currency[]).map((code) => (

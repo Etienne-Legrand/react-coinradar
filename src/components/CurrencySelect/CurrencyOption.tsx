@@ -17,7 +17,7 @@ export function CurrencyOption({
   return (
     <button
       onClick={onClick}
-      className={`flex w-full items-center rounded-lg px-3 py-2 text-left text-sm transition-colors
+      className={`cursor-pointer flex w-full items-center rounded-lg px-3 py-2 text-left text-sm transition-colors
         ${
           isSelected
             ? "bg-gray-100 dark:bg-gray-700"
