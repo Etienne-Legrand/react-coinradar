@@ -1,19 +1,7 @@
-import { createContext, useContext, useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { ThemeMode } from "../types/types";
 
-type ThemeContextType = {
-  theme: ThemeMode;
-  toggleTheme: () => void;
-};
-
-const ThemeContext = createContext<ThemeContextType>({
-  theme: "dark",
-  toggleTheme: () => {},
-});
-
-export function ThemeProvider({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export function useTheme() {
   // Récupérer le thème sauvegardé ou utiliser le thème par défaut
   const [theme, setTheme] = useState<ThemeMode>(() => {
     return (
@@ -24,23 +12,17 @@ export function ThemeProvider({
     );
   });
 
-  // Appliquer le thème et le sauvegarder
+  // Met à jour le thème
   useEffect(() => {
     document.documentElement.classList.remove("light", "dark");
     document.documentElement.classList.add(theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // Changement de thème
+  // Inverse le thème actuel
   const toggleTheme = () => {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
-  const value = useMemo(() => ({ theme, toggleTheme }), [theme]);
-
-  return (
-    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
-  );
+  return { theme, toggleTheme };
 }
-
-export const useTheme = () => useContext(ThemeContext);
