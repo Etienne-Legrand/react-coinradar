@@ -1,59 +1,12 @@
-import { useEffect, useState } from "react";
-import { Coin, Currency } from "../types/types";
 import { CoinRow } from "./CoinRow";
 import { CurrencySelect } from "./CurrencySelect";
 import { ThemeToggle } from "./ThemeToggle";
+import { useCryptoData } from "../hooks/useCryptoData";
+import { useCurrency } from "../hooks/useCurrency";
 
 export function CoinList() {
-  const [coins, setCoins] = useState<Coin[]>([]);
-  const [currency, setCurrency] = useState<Currency>("USD");
-
-  useEffect(() => {
-    const fetchCoins = async () => {
-      try {
-        const response = await fetch(
-          `https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=${currency}&exchange=Binance`
-        );
-        const data = await response.json();
-
-        const coinsPromises = data.Data.map(async (coin: any) => {
-          // Récupérer l'historique des prix pour les 7 derniers jours par heure
-          const nbOfHours = 7 * 24;
-          const historyResponse = await fetch(
-            `https://min-api.cryptocompare.com/data/v2/histohour?fsym=${coin.CoinInfo.Name}&tsym=${currency}&limit=${nbOfHours}&exchange=Binance`
-          );
-          const historyData = await historyResponse.json();
-          const prices = historyData.Data.Data.map((d: any) => d.close);
-
-          // Calculer le changement de prix basé sur les données historiques
-          const change7j =
-            prices.length > 0
-              ? ((prices[prices.length - 1] - prices[0]) / prices[0]) * 100
-              : 0;
-
-          return {
-            name: coin.CoinInfo.FullName,
-            symbol: coin.CoinInfo.Name,
-            imageUrl: `https://www.cryptocompare.com${coin.CoinInfo.ImageUrl}`,
-            price: coin.RAW[currency].PRICE,
-            change1h: coin.RAW[currency].CHANGEPCTHOUR,
-            change24h: coin.RAW[currency].CHANGEPCT24HOUR,
-            sparklineData: prices,
-            change7j: change7j,
-          };
-        });
-
-        const formattedCoins = await Promise.all(coinsPromises);
-        setCoins(formattedCoins);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des données:", error);
-      }
-    };
-
-    fetchCoins();
-    const interval = setInterval(fetchCoins, 60000);
-    return () => clearInterval(interval);
-  }, [currency]);
+  const { currency, setCurrency } = useCurrency();
+  const { coins } = useCryptoData(currency);
 
   return (
     <div className="p-4">
@@ -65,16 +18,37 @@ export function CoinList() {
         </div>
       </div>
       <div className="overflow-x-auto">
-        <table className="min-w-full">
+        <table className="min-w-full table-fixed">
+          <colgroup>
+            <col className="w-16" /> {/* # */}
+            <col className="w-40" /> {/* Nom */}
+            <col className="w-32" /> {/* Prix */}
+            <col className="w-24" /> {/* 1h % */}
+            <col className="w-24" /> {/* 24h % */}
+            <col className="w-24" /> {/* 7j % */}
+            <col className="w-36" /> {/* Graph */}
+          </colgroup>
           <thead>
             <tr className="border-b border-gray-300 dark:border-gray-700">
-              <th className="px-4 py-2 text-left dark:text-white">#</th>
-              <th className="px-4 py-2 text-left dark:text-white">Nom</th>
-              <th className="px-4 py-2 text-right dark:text-white">Prix</th>
-              <th className="px-4 py-2 text-right dark:text-white">1h %</th>
-              <th className="px-4 py-2 text-right dark:text-white">24h %</th>
-              <th className="px-4 py-2 text-right dark:text-white">7j %</th>
-              <th className="px-4 py-2 text-right dark:text-white">
+              <th className="whitespace-nowrap px-4 py-2 text-left dark:text-white">
+                #
+              </th>
+              <th className="whitespace-nowrap px-4 py-2 text-left dark:text-white">
+                Nom
+              </th>
+              <th className="whitespace-nowrap px-4 py-2 text-right dark:text-white">
+                Prix
+              </th>
+              <th className="whitespace-nowrap px-4 py-2 text-right dark:text-white">
+                1h %
+              </th>
+              <th className="whitespace-nowrap px-4 py-2 text-right dark:text-white">
+                24h %
+              </th>
+              <th className="whitespace-nowrap px-4 py-2 text-right dark:text-white">
+                7j %
+              </th>
+              <th className="whitespace-nowrap px-4 py-2 text-right dark:text-white">
                 7 Derniers Jours
               </th>
             </tr>

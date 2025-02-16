@@ -11,10 +11,11 @@ export function CoinRow({ coin, index, currency }: CoinRowProps) {
   const formatNumber = (num: number | null | undefined) => {
     if (num == null) return "N/A";
     const locale = currency === "USD" ? "en-US" : "fr-FR";
+
     return new Intl.NumberFormat(locale, {
       style: "currency",
       currency: currency,
-      maximumFractionDigits: 2,
+      maximumFractionDigits: Math.abs(num) >= 1 ? 2 : 4,
     }).format(num);
   };
 
@@ -55,7 +56,9 @@ export function CoinRow({ coin, index, currency }: CoinRowProps) {
       {/* 1h % */}
       <td
         className={`py-2 px-4 text-right ${
-          isPositive(coin.change1h) ? "text-emerald-400" : "text-rose-500"
+          isPositive(coin.change1h)
+            ? "text-emerald-500 dark:text-emerald-400"
+            : "text-rose-600 dark:text-rose-500"
         }`}
       >
         {formatPercent(coin.change1h)}
@@ -63,7 +66,9 @@ export function CoinRow({ coin, index, currency }: CoinRowProps) {
       {/* 24h % */}
       <td
         className={`py-2 px-4 text-right ${
-          isPositive(coin.change24h) ? "text-emerald-400" : "text-rose-500"
+          isPositive(coin.change24h)
+            ? "text-emerald-500 dark:text-emerald-400"
+            : "text-rose-600 dark:text-rose-500"
         }`}
       >
         {formatPercent(coin.change24h)}
@@ -71,7 +76,9 @@ export function CoinRow({ coin, index, currency }: CoinRowProps) {
       {/* 7j % */}
       <td
         className={`py-2 px-4 text-right ${
-          isPositive(coin.change7j) ? "text-emerald-400" : "text-rose-500"
+          isPositive(coin.change7j)
+            ? "text-emerald-500 dark:text-emerald-400"
+            : "text-rose-600 dark:text-rose-500"
         }`}
       >
         {formatPercent(coin.change7j)}

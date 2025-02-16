@@ -10,4 +10,11 @@ export interface Coin {
 }
 
 export type ThemeMode = "light" | "dark";
-export type Currency = "USD" | "EUR" | "BTC";
+
+export const Currency = {
+  USD: "USD",
+  EUR: "EUR",
+  BTC: "BTC",
+} as const;
+
+export type Currency = (typeof Currency)[keyof typeof Currency];
