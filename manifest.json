@@ -4,7 +4,9 @@
   "version": "1.0",
   "description": "Suivez les crypto en temps réel",
   "action": {
-    "default_popup": "index.html"
+    "default_popup": "index.html",
+    "default_title": "React Coin Radar"
   },
-  "permissions": ["storage"]
+  "permissions": ["storage"],
+  "host_permissions": ["https://min-api.cryptocompare.com/*"]
 }

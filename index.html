@@ -13,16 +13,7 @@
         background-color: #101828;
       }
     </style>
-    <script>
-      (function () {
-        const theme =
-          localStorage.getItem("theme") ||
-          (window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? "dark"
-            : "light");
-        document.documentElement.classList.add(theme);
-      })();
-    </script>
+    <script type="module" src="/src/utils/theme-init.ts"></script>
   </head>
   <body>
     <div id="root"></div>
