@@ -16,11 +16,12 @@ export function ThemeProvider({
 }: Readonly<{ children: React.ReactNode }>) {
   // Récupérer le thème sauvegardé ou utiliser le thème par défaut
   const [theme, setTheme] = useState<ThemeMode>(() => {
-    const savedTheme = localStorage.getItem("theme") as ThemeMode;
-    if (savedTheme) return savedTheme;
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
+    return (
+      (localStorage.getItem("theme") as ThemeMode) ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light")
+    );
   });
 
   // Appliquer le thème et le sauvegarder
