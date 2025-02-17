@@ -12,7 +12,7 @@ export function useExchange() {
     () => localStorage.getItem(STORAGE_KEY) ?? DEFAULT_EXCHANGE
   );
 
-  const { data: exchanges = [] } = useQuery<Exchange[]>({
+  const { data: exchanges = [], isLoading } = useQuery<Exchange[]>({
     queryKey: ["exchanges"],
     queryFn: fetchExchanges,
     staleTime: 1000 * 60 * 60,
@@ -56,5 +56,6 @@ export function useExchange() {
     selectedExchange: activeExchange?.name ?? DEFAULT_EXCHANGE,
     selectedExchangeId: activeExchange?.id ?? "",
     setExchange: updateExchange,
+    isLoading,
   };
 }
