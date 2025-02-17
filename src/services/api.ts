@@ -6,6 +6,16 @@ type HistoryDataPoint = {
   time: number;
 };
 
+type ExchangeApiResponse = {
+  Data: Record<string, ExchangeData>;
+};
+
+type ExchangeData = {
+  Name: string;
+  Url: string;
+  LogoUrl: string;
+};
+
 // Constantes
 const BASE_URL = "https://min-api.cryptocompare.com/data";
 
@@ -30,4 +40,20 @@ export const fetchCoinHistory = async (
   );
   const historyData = await historyResponse.json();
   return historyData?.Data?.Data?.map((d: HistoryDataPoint) => d.close) || [];
+};
+
+// Récupère la liste des exchanges
+export const fetchExchanges = async () => {
+  const response = await fetch(
+    "https://min-api.cryptocompare.com/data/exchanges/general"
+  );
+  const data = (await response.json()) as ExchangeApiResponse;
+  return Object.entries(data.Data).map(
+    ([id, details]: [string, ExchangeData]) => ({
+      id,
+      name: details.Name,
+      url: details.Url,
+      image: `https://www.cryptocompare.com${details.LogoUrl}`,
+    })
+  );
 };

@@ -1,8 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { Exchange } from "../types/types";
 
-const DEFAULT_EXCHANGE = "Binance";
-
 type ExchangeApiResponse = {
   Data: Record<string, ExchangeData>;
 };
@@ -13,10 +11,12 @@ type ExchangeData = {
   LogoUrl: string;
 };
 
+const DEFAULT_EXCHANGE: string = "Binance";
+
 export function useExchange() {
   const [exchanges, setExchanges] = useState<Exchange[]>([]);
-  const [selectedExchangeId, setSelectedExchangeId] = useState(
-    () => localStorage.getItem("exchange") ?? DEFAULT_EXCHANGE
+  const [selectedExchangeId, setSelectedExchangeId] = useState<string | null>(
+    () => localStorage.getItem("exchangeId")
   );
   const [isLoading, setIsLoading] = useState(true);
 
@@ -30,13 +30,25 @@ export function useExchange() {
         const data = (await response.json()) as ExchangeApiResponse;
         const exchangesList = Object.entries(data.Data).map(
           ([id, details]: [string, ExchangeData]) => ({
-            exchange_id: id,
+            id: id,
             name: details.Name,
             url: details.Url,
             image: `https://www.cryptocompare.com${details.LogoUrl}`,
           })
         );
         setExchanges(exchangesList);
+
+        // Si aucun exchange n'est sélectionné, chercher Binance
+        if (!selectedExchangeId) {
+          const defaultExchange = exchangesList.find(
+            (exchange) => exchange.name === DEFAULT_EXCHANGE
+          );
+          if (defaultExchange) {
+            setSelectedExchangeId(defaultExchange.id);
+            localStorage.setItem("exchangeId", defaultExchange.id);
+            localStorage.setItem("exchange", defaultExchange.name);
+          }
+        }
       } catch (error) {
         console.error("Erreur lors du chargement des exchanges:", error);
       } finally {
@@ -45,28 +57,29 @@ export function useExchange() {
     };
 
     fetchExchanges();
-  }, []);
+  }, [selectedExchangeId]);
 
-  // Mettre à jour l'exchange sélectionné
   const updateExchange = useCallback(
-    (exchangeId: string) => {
-      const exchange = exchanges.find((e) => e.exchange_id === exchangeId);
-      if (exchange) {
-        setSelectedExchangeId(exchangeId);
-        localStorage.setItem("exchange", exchange.name); // Sauvegarder le nom pour l'API
+    (newExchangeId: string) => {
+      const newExchange = exchanges.find(
+        (exchange) => exchange.id === newExchangeId
+      );
+      if (newExchange) {
+        setSelectedExchangeId(newExchangeId);
+        localStorage.setItem("exchangeId", newExchangeId);
+        localStorage.setItem("exchange", newExchange.name);
       }
     },
     [exchanges]
   );
 
   const selectedExchange =
-    exchanges.find((e) => e.exchange_id === selectedExchangeId)?.name ??
-    DEFAULT_EXCHANGE;
+    exchanges.find((e) => e.id === selectedExchangeId)?.name ?? "";
 
   return {
     exchanges,
-    selectedExchange, // Retourne le nom pour l'API
-    selectedExchangeId, // Retourne l'ID pour le select
+    selectedExchange,
+    selectedExchangeId: selectedExchangeId ?? "",
     setExchange: updateExchange,
     isLoading,
   };

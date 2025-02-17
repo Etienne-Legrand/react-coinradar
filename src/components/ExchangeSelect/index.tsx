@@ -16,7 +16,7 @@ export function ExchangeSelect({
   isLoading,
 }: ExchangeSelectProps) {
   const options: SelectOption[] = exchanges.map((exchange) => ({
-    id: exchange.exchange_id,
+    id: exchange.id,
     label: exchange.name,
     imageUrl: exchange.image,
   }));

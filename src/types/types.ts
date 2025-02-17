@@ -20,7 +20,7 @@ export const Currency = {
 export type Currency = (typeof Currency)[keyof typeof Currency];
 
 export type Exchange = {
-  exchange_id: string;
+  id: string;
   name: string;
   url: string;
   image: string;
