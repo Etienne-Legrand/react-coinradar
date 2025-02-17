@@ -8,7 +8,13 @@ import { useExchange } from "../hooks/useExchange";
 
 export function CoinList() {
   const { currency, setCurrency } = useCurrency();
-  const { exchanges, selectedExchange, setExchange, isLoading } = useExchange();
+  const {
+    exchanges,
+    selectedExchange,
+    selectedExchangeId,
+    setExchange,
+    isLoading,
+  } = useExchange();
   const { coins } = useCryptoData(currency, selectedExchange);
 
   return (
@@ -19,7 +25,7 @@ export function CoinList() {
           <CurrencySelect value={currency} onChange={setCurrency} />
           <ExchangeSelect
             exchanges={exchanges}
-            value={selectedExchange}
+            value={selectedExchangeId}
             onChange={setExchange}
             isLoading={isLoading}
           />

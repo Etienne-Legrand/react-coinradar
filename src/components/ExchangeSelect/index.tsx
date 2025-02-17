@@ -5,7 +5,7 @@ import { SelectOption } from "../Select/types";
 interface ExchangeSelectProps {
   readonly exchanges: Exchange[];
   readonly value: string;
-  readonly onChange: (exchange: string) => void;
+  readonly onChange: (exchangeId: string) => void;
   readonly isLoading?: boolean;
 }
 

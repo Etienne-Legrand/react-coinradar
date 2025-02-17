@@ -15,7 +15,7 @@ type ExchangeData = {
 
 export function useExchange() {
   const [exchanges, setExchanges] = useState<Exchange[]>([]);
-  const [selectedExchange, setSelectedExchange] = useState(
+  const [selectedExchangeId, setSelectedExchangeId] = useState(
     () => localStorage.getItem("exchange") ?? DEFAULT_EXCHANGE
   );
   const [isLoading, setIsLoading] = useState(true);
@@ -48,14 +48,25 @@ export function useExchange() {
   }, []);
 
   // Mettre à jour l'exchange sélectionné
-  const updateExchange = useCallback((exchange: string) => {
-    setSelectedExchange(exchange);
-    localStorage.setItem("exchange", exchange);
-  }, []);
+  const updateExchange = useCallback(
+    (exchangeId: string) => {
+      const exchange = exchanges.find((e) => e.exchange_id === exchangeId);
+      if (exchange) {
+        setSelectedExchangeId(exchangeId);
+        localStorage.setItem("exchange", exchange.name); // Sauvegarder le nom pour l'API
+      }
+    },
+    [exchanges]
+  );
+
+  const selectedExchange =
+    exchanges.find((e) => e.exchange_id === selectedExchangeId)?.name ??
+    DEFAULT_EXCHANGE;
 
   return {
     exchanges,
-    selectedExchange,
+    selectedExchange, // Retourne le nom pour l'API
+    selectedExchangeId, // Retourne l'ID pour le select
     setExchange: updateExchange,
     isLoading,
   };
