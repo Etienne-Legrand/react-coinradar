@@ -18,3 +18,10 @@ export const Currency = {
 } as const;
 
 export type Currency = (typeof Currency)[keyof typeof Currency];
+
+export type Exchange = {
+  exchange_id: string;
+  name: string;
+  url: string;
+  image: string;
+};

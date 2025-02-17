@@ -17,10 +17,10 @@ type CryptoCompareData = {
   };
 };
 
-export const useCryptoData = (currency: Currency) => {
+export const useCryptoData = (currency: Currency, exchange: string) => {
   const { data: topCoinsData } = useQuery<CryptoCompareData[]>({
-    queryKey: ["topCoins", currency],
-    queryFn: () => fetchTopCoins(currency),
+    queryKey: ["topCoins", currency, exchange],
+    queryFn: () => fetchTopCoins(currency, exchange),
     refetchInterval: 10000, // 10 secondes
   });
 
@@ -28,8 +28,8 @@ export const useCryptoData = (currency: Currency) => {
     queries: (topCoinsData ?? [])
       .filter((coin) => coin?.CoinInfo?.Name)
       .map((coin) => ({
-        queryKey: ["coinHistory", coin.CoinInfo.Name, currency],
-        queryFn: () => fetchCoinHistory(coin.CoinInfo.Name, currency),
+        queryKey: ["coinHistory", coin.CoinInfo.Name, currency, exchange],
+        queryFn: () => fetchCoinHistory(coin.CoinInfo.Name, currency, exchange),
         staleTime: 3600000, // 1 heure
       })),
   });

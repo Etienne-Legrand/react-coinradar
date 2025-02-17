@@ -1,12 +1,15 @@
 import { CoinRow } from "./CoinRow";
 import { CurrencySelect } from "./CurrencySelect";
 import { ThemeToggle } from "./ThemeToggle";
+import { ExchangeSelect } from "./ExchangeSelect";
 import { useCryptoData } from "../hooks/useCryptoData";
 import { useCurrency } from "../hooks/useCurrency";
+import { useExchange } from "../hooks/useExchange";
 
 export function CoinList() {
   const { currency, setCurrency } = useCurrency();
-  const { coins } = useCryptoData(currency);
+  const { exchanges, selectedExchange, setExchange, isLoading } = useExchange();
+  const { coins } = useCryptoData(currency, selectedExchange);
 
   return (
     <div className="p-4">
@@ -14,6 +17,12 @@ export function CoinList() {
         <h1 className="text-2xl font-bold dark:text-white">Top 10 Crypto</h1>
         <div className="flex items-center gap-3">
           <CurrencySelect value={currency} onChange={setCurrency} />
+          <ExchangeSelect
+            exchanges={exchanges}
+            value={selectedExchange}
+            onChange={setExchange}
+            isLoading={isLoading}
+          />
           <ThemeToggle />
         </div>
       </div>
