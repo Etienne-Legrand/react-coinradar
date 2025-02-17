@@ -18,7 +18,7 @@ type CryptoCompareData = {
 };
 
 export const useCryptoData = (currency: Currency, exchange: string) => {
-  const { data: topCoinsData } = useQuery<CryptoCompareData[]>({
+  const { data: topCoinsData, isLoading } = useQuery<CryptoCompareData[]>({
     queryKey: ["topCoins", currency, exchange],
     queryFn: () => fetchTopCoins(currency, exchange),
     refetchInterval: 10000, // 10 secondes
@@ -56,5 +56,5 @@ export const useCryptoData = (currency: Currency, exchange: string) => {
       };
     });
 
-  return { coins };
+  return { coins, isLoading };
 };

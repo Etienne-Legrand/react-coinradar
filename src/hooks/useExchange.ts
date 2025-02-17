@@ -1,86 +1,60 @@
-import { useState, useCallback, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Exchange } from "../types/types";
+import { fetchExchanges } from "../services/api";
 
-type ExchangeApiResponse = {
-  Data: Record<string, ExchangeData>;
-};
-
-type ExchangeData = {
-  Name: string;
-  Url: string;
-  LogoUrl: string;
-};
-
-const DEFAULT_EXCHANGE: string = "Binance";
+const DEFAULT_EXCHANGE = "Binance";
+const STORAGE_KEY = "exchange";
 
 export function useExchange() {
-  const [exchanges, setExchanges] = useState<Exchange[]>([]);
-  const [selectedExchangeId, setSelectedExchangeId] = useState<string | null>(
-    () => localStorage.getItem("exchangeId")
+  // État local pour le nom de l'exchange actif
+  const [activeExchangeName, setActiveExchangeName] = useState(
+    () => localStorage.getItem(STORAGE_KEY) ?? DEFAULT_EXCHANGE
   );
-  const [isLoading, setIsLoading] = useState(true);
 
-  // Charger la liste des exchanges
-  useEffect(() => {
-    const fetchExchanges = async () => {
-      try {
-        const response = await fetch(
-          "https://min-api.cryptocompare.com/data/exchanges/general"
-        );
-        const data = (await response.json()) as ExchangeApiResponse;
-        const exchangesList = Object.entries(data.Data).map(
-          ([id, details]: [string, ExchangeData]) => ({
-            id: id,
-            name: details.Name,
-            url: details.Url,
-            image: `https://www.cryptocompare.com${details.LogoUrl}`,
-          })
-        );
-        setExchanges(exchangesList);
+  const { data: exchanges = [] } = useQuery<Exchange[]>({
+    queryKey: ["exchanges"],
+    queryFn: fetchExchanges,
+    staleTime: 1000 * 60 * 60,
+    select: (data) => [...data].sort((a, b) => a.name.localeCompare(b.name)),
+  });
 
-        // Si aucun exchange n'est sélectionné, chercher Binance
-        if (!selectedExchangeId) {
-          const defaultExchange = exchangesList.find(
-            (exchange) => exchange.name === DEFAULT_EXCHANGE
-          );
-          if (defaultExchange) {
-            setSelectedExchangeId(defaultExchange.id);
-            localStorage.setItem("exchangeId", defaultExchange.id);
-            localStorage.setItem("exchange", defaultExchange.name);
-          }
-        }
-      } catch (error) {
-        console.error("Erreur lors du chargement des exchanges:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchExchanges();
-  }, [selectedExchangeId]);
+  const activeExchange =
+    exchanges.find((e) => e.name === activeExchangeName) ||
+    exchanges.find((e) => e.name === DEFAULT_EXCHANGE) ||
+    exchanges[0];
 
   const updateExchange = useCallback(
-    (newExchangeId: string) => {
-      const newExchange = exchanges.find(
-        (exchange) => exchange.id === newExchangeId
-      );
-      if (newExchange) {
-        setSelectedExchangeId(newExchangeId);
-        localStorage.setItem("exchangeId", newExchangeId);
-        localStorage.setItem("exchange", newExchange.name);
+    (exchangeId: string) => {
+      const exchange = exchanges.find((e) => e.id === exchangeId);
+      if (exchange) {
+        localStorage.setItem(STORAGE_KEY, exchange.name);
+        setActiveExchangeName(exchange.name); // Met à jour l'état local
       }
     },
     [exchanges]
   );
 
-  const selectedExchange =
-    exchanges.find((e) => e.id === selectedExchangeId)?.name ?? "";
+  // Si l'exchange actif n'existe pas dans la liste, revenir à Binance
+  useEffect(() => {
+    if (
+      exchanges.length > 0 &&
+      !exchanges.some((e) => e.name === activeExchangeName)
+    ) {
+      const defaultExchange = exchanges.find(
+        (e) => e.name === DEFAULT_EXCHANGE
+      );
+      if (defaultExchange) {
+        setActiveExchangeName(DEFAULT_EXCHANGE);
+        localStorage.setItem(STORAGE_KEY, DEFAULT_EXCHANGE);
+      }
+    }
+  }, [exchanges, activeExchangeName]);
 
   return {
     exchanges,
-    selectedExchange,
-    selectedExchangeId: selectedExchangeId ?? "",
+    selectedExchange: activeExchange?.name ?? DEFAULT_EXCHANGE,
+    selectedExchangeId: activeExchange?.id ?? "",
     setExchange: updateExchange,
-    isLoading,
   };
 }
