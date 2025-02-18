@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "CoinRadar",
-  "version": "1.0",
-  "description": "Suivez les crypto en temps réel",
+  "name": "CoinRadar BETA",
+  "version": "0.0.1",
+  "description": "Suivre les prix des 10 cryptomonnaies les plus capitalisées. THIS EXTENSION IS FOR BÊTA TESTING",
   "action": {
     "default_popup": "index.html",
-    "default_title": "React Coin Radar"
+    "default_title": "Coin Radar"
   },
   "permissions": ["storage"],
   "host_permissions": ["https://min-api.cryptocompare.com/*"],
