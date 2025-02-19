@@ -1,50 +1,64 @@
-# React + TypeScript + Vite
+# CoinRadar
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Suivre les prix des 10 cryptomonnaies les plus capitalisées en un clic.
 
-Currently, two official plugins are available:
+CoinRadar est une extension simple et pratique pour suivre les prix des cryptomonnaies les plus capitalisées.
+Vous voyez immédiatement leurs variations (1h, 24h, 7j) et profitez d'un mode sombre pour plus de confort visuel.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Gardez un œil sur le marché et ne ratez plus aucune opportunité.
 
-## Expanding the ESLint configuration
+## Fonctionnalités
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- 🔄 Actualisation en temps réel (10s)
+- 💱 Choix de la devise (USD, EUR, BTC)
+- 🏛️ Choix de l'exchange
+- 🌓 Mode sombre/clair
+- 📊 Graphiques sur 7 jours
+- 📱 Interface design
 
-- Configure the top-level `parserOptions` property like this:
+## Prérequis
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- Node.js
+
+## Installation
+
+1. Cloner le projet
+
+```bash
+git clone https://github.com/votre-username/react-coinradar.git
+cd react-coinradar
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Installer les dépendances
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+npm install
 ```
+
+3. Lancer en mode développement
+
+```bash
+npm run dev
+```
+
+4. Construire l'extension
+
+```bash
+npm run build
+```
+
+## Installation de l'extension
+
+1. Ouvrir Chrome et aller à `chrome://extensions/`
+2. Activer le "Mode développeur"
+3. Cliquer sur "Charger l'extension non empaquetée"
+4. Sélectionner le dossier `dist` généré
+
+## Technologies utilisées
+
+- ⚛️ React
+- 🌪️ Vite
+- 🎨 TailwindCSS
+- 🔄 React Query
+- 📊 Recharts
+- 🌐 CryptoCompare API
