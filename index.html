@@ -1,22 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>React CoinRadar</title>
+    <script type="module" src="/src/utils/theme-init.ts"></script>
     <style>
-      /* Styles initiaux pour éviter le flash */
-      html {
-        background-color: #ffffff;
-      }
-      html.dark {
+      html.dark body {
         background-color: #101828;
       }
+
+      /* Style personnalisé pour la scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #aaa;
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #777;
+      }
+
+      /* Version dark mode */
+      html.dark ::-webkit-scrollbar-track {
+        background: #1f2937;
+      }
+
+      html.dark ::-webkit-scrollbar-thumb {
+        background: #4b5563;
+      }
+
+      html.dark ::-webkit-scrollbar-thumb:hover {
+        background: #6b7280;
+      }
     </style>
-    <script type="module" src="/src/utils/theme-init.ts"></script>
   </head>
-  <body>
+  <body
+    class="mx-auto h-[530px] w-[710px] overflow-y-scroll bg-white font-sans transition-colors duration-200 dark:bg-gray-900"
+  >
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
