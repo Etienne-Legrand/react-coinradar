@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "CoinRadar BETA",
-  "version": "0.0.1",
-  "description": "Suivre les prix des 10 cryptomonnaies les plus capitalisées. THIS EXTENSION IS FOR BÊTA TESTING",
+  "name": "CoinRadar",
+  "version": "0.0.2",
+  "description": "Suivre les prix des 10 cryptomonnaies les plus capitalisées en un clic.",
   "action": {
     "default_popup": "index.html",
     "default_title": "Coin Radar"
