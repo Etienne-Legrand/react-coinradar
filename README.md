@@ -1,8 +1,8 @@
-# CoinRadar
+# Coin Radar
 
 Suivre les prix des 10 cryptomonnaies les plus capitalisées en un clic.
 
-CoinRadar est une extension simple et pratique pour suivre les prix des cryptomonnaies les plus capitalisées.
+Coin Radar est une extension simple et pratique pour suivre les prix des cryptomonnaies les plus capitalisées.
 Vous voyez immédiatement leurs variations (1h, 24h, 7j) et profitez d'un mode sombre pour plus de confort visuel.
 
 Gardez un œil sur le marché et ne ratez plus aucune opportunité.
