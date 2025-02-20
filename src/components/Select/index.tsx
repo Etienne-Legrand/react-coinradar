@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { SelectProps } from "./types";
+import { ImageWithFallback } from "../ImageWithFallback";
 
 export function Select({
   options,
@@ -12,8 +13,19 @@ export function Select({
 }: Readonly<SelectProps>) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useClickOutside<HTMLDivElement>(() => setIsOpen(false));
+  const selectedOptionRef = useRef<HTMLButtonElement>(null);
 
   const selectedOption = options.find((option) => option.id === value);
+
+  // Descend dans la liste pour afficher l'option sélectionnée
+  useEffect(() => {
+    if (isOpen && selectedOptionRef.current) {
+      selectedOptionRef.current.scrollIntoView({
+        block: "start",
+        behavior: "instant",
+      });
+    }
+  }, [isOpen]);
 
   if (isLoading) {
     return (
@@ -31,7 +43,7 @@ export function Select({
           {selectedOption ? (
             <>
               {selectedOption.imageUrl && (
-                <img
+                <ImageWithFallback
                   src={selectedOption.imageUrl}
                   alt={selectedOption.label}
                   className="mr-2 h-5 w-5 flex-shrink-0 rounded-full"
@@ -68,6 +80,7 @@ export function Select({
           {options.map((option) => (
             <button
               key={option.id}
+              ref={option.id === value ? selectedOptionRef : null}
               onClick={() => {
                 onChange(option.id);
                 setIsOpen(false);
@@ -80,7 +93,7 @@ export function Select({
                 }`}
             >
               {option.imageUrl && (
-                <img
+                <ImageWithFallback
                   src={option.imageUrl}
                   alt={option.label}
                   className="mr-2 h-5 w-5 flex-shrink-0 rounded-full"
