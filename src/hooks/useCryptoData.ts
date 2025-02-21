@@ -24,9 +24,12 @@ export const useCryptoData = (currency: Currency, exchange: string) => {
     refetchInterval: 10000, // 10 secondes
   });
 
+  const coins = topCoinsData ?? [];
   const historicalQueries = useQueries({
-    queries: (topCoinsData ?? [])
-      .filter((coin) => coin?.CoinInfo?.Name)
+    queries: coins
+      .filter((coin): coin is CryptoCompareData =>
+        Boolean(coin?.CoinInfo?.Name)
+      )
       .map((coin) => ({
         queryKey: ["coinHistory", coin.CoinInfo.Name, currency, exchange],
         queryFn: () => fetchCoinHistory(coin.CoinInfo.Name, currency, exchange),
@@ -34,7 +37,7 @@ export const useCryptoData = (currency: Currency, exchange: string) => {
       })),
   });
 
-  const coins: Coin[] = (topCoinsData ?? [])
+  const processedCoins: Coin[] = coins
     .filter((coin) => coin?.CoinInfo?.Name && coin?.RAW?.[currency])
     .map((coin, index) => {
       const historicalData = historicalQueries[index]?.data ?? [];
@@ -56,5 +59,5 @@ export const useCryptoData = (currency: Currency, exchange: string) => {
       };
     });
 
-  return { coins, isLoading };
+  return { coins: processedCoins, isLoading };
 };
