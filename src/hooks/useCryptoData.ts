@@ -24,7 +24,9 @@ export const useCryptoData = (currency: Currency, exchange: string) => {
     refetchInterval: 10000, // 10 secondes
   });
 
-  const coins = topCoinsData ?? [];
+  // S'assurer que coins est toujours un tableau
+  const coins = Array.isArray(topCoinsData) ? topCoinsData : [];
+
   const historicalQueries = useQueries({
     queries: coins
       .filter((coin): coin is CryptoCompareData =>
