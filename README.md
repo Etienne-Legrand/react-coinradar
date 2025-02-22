@@ -62,3 +62,10 @@ npm run build
 - 🔄 React Query
 - 📊 Recharts
 - 🌐 CryptoCompare API
+
+## Performance
+
+✨ Score 100/100 sur Google Lighthouse avec :
+
+- les fichiers de production du dossier `dist`
+- HTTPS avec un certificat SSL valide
