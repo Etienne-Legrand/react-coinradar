@@ -2,6 +2,7 @@ import { Currency } from "../../types/types";
 import { currencies } from "./config";
 import { Select } from "../Select";
 import { SelectOption } from "../Select/types";
+import { useTranslation } from "react-i18next";
 
 interface CurrencySelectProps {
   readonly value: Currency;
@@ -9,6 +10,8 @@ interface CurrencySelectProps {
 }
 
 export function CurrencySelect({ value, onChange }: CurrencySelectProps) {
+  const { t } = useTranslation();
+
   const options: SelectOption[] = Object.entries(currencies).map(
     ([code, data]) => ({
       id: code,
@@ -23,6 +26,7 @@ export function CurrencySelect({ value, onChange }: CurrencySelectProps) {
       options={options}
       value={value}
       onChange={onChange as (value: string) => void}
+      title={t("tooltips.currency")}
     />
   );
 }

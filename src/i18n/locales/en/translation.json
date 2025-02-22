@@ -1,0 +1,15 @@
+{
+  "table": {
+    "name": "Name",
+    "price": "Price",
+    "1h": "1h %",
+    "24h": "24h %",
+    "7d": "7d %",
+    "chart": "Last 7 Days"
+  },
+  "tooltips": {
+    "currency": "Currency",
+    "exchange": "Exchange platform",
+    "theme": "Theme"
+  }
+}

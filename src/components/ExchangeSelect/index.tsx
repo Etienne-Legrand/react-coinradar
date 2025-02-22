@@ -1,6 +1,7 @@
 import { Exchange } from "../../types/types";
 import { Select } from "../Select";
 import { SelectOption } from "../Select/types";
+import { useTranslation } from "react-i18next";
 
 interface ExchangeSelectProps {
   readonly exchanges: Exchange[];
@@ -15,6 +16,8 @@ export function ExchangeSelect({
   onChange,
   isLoading,
 }: ExchangeSelectProps) {
+  const { t } = useTranslation();
+
   const options: SelectOption[] = exchanges.map((exchange) => ({
     id: exchange.id,
     label: exchange.name,
@@ -27,6 +30,7 @@ export function ExchangeSelect({
       value={value}
       onChange={onChange}
       isLoading={isLoading}
+      title={t("tooltips.exchange")}
     />
   );
 }

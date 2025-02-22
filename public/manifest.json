@@ -1,11 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "Coin Radar",
+  "name": "__MSG_extensionName__",
   "version": "0.0.5",
-  "description": "Suivre les prix des 10 cryptomonnaies les plus capitalisées en un clic.",
+  "default_locale": "en",
+  "description": "__MSG_extensionDescription__",
   "action": {
     "default_popup": "index.html",
-    "default_title": "Coin Radar"
+    "default_title": "__MSG_extensionName__"
   },
   "permissions": ["storage"],
   "host_permissions": ["https://min-api.cryptocompare.com/*"],

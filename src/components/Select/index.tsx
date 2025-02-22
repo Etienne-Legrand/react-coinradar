@@ -10,6 +10,7 @@ export function Select({
   isLoading,
   placeholder = "Sélectionner...",
   className = "",
+  title,
 }: Readonly<SelectProps>) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useClickOutside<HTMLDivElement>(() => setIsOpen(false));
@@ -37,6 +38,7 @@ export function Select({
     <div ref={containerRef} className={`relative min-w-[150px] ${className}`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
+        title={title}
         className="flex h-10 w-full cursor-pointer items-center justify-between rounded-lg border border-gray-200 bg-gray-50 px-3 text-sm font-medium text-gray-700 transition-all hover:bg-gray-200 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
       >
         <div className="flex items-center truncate">

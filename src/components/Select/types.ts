@@ -12,4 +12,5 @@ export interface SelectProps {
   isLoading?: boolean;
   placeholder?: string;
   className?: string;
+  readonly title?: string;
 }

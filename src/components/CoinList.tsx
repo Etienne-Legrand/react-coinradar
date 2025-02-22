@@ -5,8 +5,10 @@ import { ExchangeSelect } from "./ExchangeSelect";
 import { useCryptoData } from "../hooks/useCryptoData";
 import { useCurrency } from "../hooks/useCurrency";
 import { useExchange } from "../hooks/useExchange";
+import { useTranslation } from "react-i18next";
 
 export function CoinList() {
+  const { t } = useTranslation();
   const { currency, setCurrency } = useCurrency();
   const {
     exchanges,
@@ -49,22 +51,22 @@ export function CoinList() {
                 #
               </th>
               <th className="whitespace-nowrap px-4 py-2 text-left dark:text-white">
-                Nom
+                {t("table.name")}
               </th>
               <th className="whitespace-nowrap px-4 py-2 text-right dark:text-white">
-                Prix
+                {t("table.price")}
               </th>
               <th className="whitespace-nowrap px-4 py-2 text-right dark:text-white">
-                1h %
+                {t("table.1h")}
               </th>
               <th className="whitespace-nowrap px-4 py-2 text-right dark:text-white">
-                24h %
+                {t("table.24h")}
               </th>
               <th className="whitespace-nowrap px-4 py-2 text-right dark:text-white">
-                7j %
+                {t("table.7d")}
               </th>
               <th className="whitespace-nowrap px-4 py-2 text-right dark:text-white">
-                7 Derniers Jours
+                {t("table.chart")}
               </th>
             </tr>
           </thead>
