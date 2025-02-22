@@ -45,7 +45,6 @@ export function Select({
               {selectedOption.imageUrl && (
                 <ImageWithFallback
                   src={selectedOption.imageUrl}
-                  alt={selectedOption.label}
                   className="mr-2 h-5 w-5 flex-shrink-0 rounded-full"
                 />
               )}
@@ -95,7 +94,6 @@ export function Select({
               {option.imageUrl && (
                 <ImageWithFallback
                   src={option.imageUrl}
-                  alt={option.label}
                   className="mr-2 h-5 w-5 flex-shrink-0 rounded-full"
                 />
               )}
