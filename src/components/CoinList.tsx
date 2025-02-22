@@ -35,13 +35,13 @@ export function CoinList() {
       <div className="overflow-x-auto">
         <table className="min-w-full table-fixed">
           <colgroup>
-            <col className="w-16" /> {/* # */}
-            <col className="w-40" /> {/* Nom */}
-            <col className="w-32" /> {/* Prix */}
-            <col className="w-24" /> {/* 1h % */}
-            <col className="w-24" /> {/* 24h % */}
-            <col className="w-24" /> {/* 7j % */}
-            <col className="w-36" /> {/* Graph */}
+            <col className="w-16" />
+            <col className="w-40" />
+            <col className="w-32" />
+            <col className="w-24" />
+            <col className="w-24" />
+            <col className="w-24" />
+            <col className="w-36" />
           </colgroup>
           <thead>
             <tr className="border-b border-gray-300 dark:border-gray-700">
