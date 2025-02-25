@@ -10,6 +10,7 @@
   "tooltips": {
     "currency": "Currency",
     "exchange": "Exchange platform",
-    "theme": "Theme"
+    "theme": "Theme",
+    "viewOnCoinMarketCap": "View {{name}} on CoinMarketCap"
   }
 }

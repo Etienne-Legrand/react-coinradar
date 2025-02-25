@@ -10,6 +10,7 @@
   "tooltips": {
     "currency": "Devise",
     "exchange": "Plateforme d'échange",
-    "theme": "Thème"
+    "theme": "Thème",
+    "viewOnCoinMarketCap": "Voir {{name}} sur CoinMarketCap"
   }
 }
