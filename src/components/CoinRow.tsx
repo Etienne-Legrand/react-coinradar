@@ -46,9 +46,7 @@ export function CoinRow({ coin, index, currency }: CoinRowProps) {
       {/* Nom */}
       <td className="px-4 py-2">
         <div className="flex items-center">
-          <Tooltip
-            content={t("tooltips.viewOnCoinMarketCap", { name: coin.name })}
-          >
+          <Tooltip content={t("tooltips.viewOnCoinMarketCap")}>
             <a
               href={`https://coinmarketcap.com/currencies/${formatUrlSlug(
                 coin.name

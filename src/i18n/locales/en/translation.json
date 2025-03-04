@@ -11,6 +11,6 @@
     "currency": "Currency",
     "exchange": "Exchange platform",
     "theme": "Theme",
-    "viewOnCoinMarketCap": "View {{name}} on CoinMarketCap"
+    "viewOnCoinMarketCap": "View on CoinMarketCap"
   }
 }
