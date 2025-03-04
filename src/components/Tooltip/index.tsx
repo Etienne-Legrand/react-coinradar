@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo, useId } from "react";
 import {
   useFloating,
   autoUpdate,
@@ -18,19 +18,21 @@ interface TooltipProps {
   readonly onOpenChange?: (open: boolean) => void;
 }
 
-export function Tooltip({
+export const Tooltip = memo(function Tooltip({
   content,
   children,
-  open,
+  open: externalOpen,
   onOpenChange,
 }: TooltipProps) {
+  const tooltipId = useId();
   const [internalOpen, setInternalOpen] = useState(false);
-  const isOpen = open ?? internalOpen;
-  const setIsOpen = onOpenChange ?? setInternalOpen;
+  const isShown = externalOpen ?? internalOpen;
+
+  const handleOpenChange = onOpenChange ?? setInternalOpen;
 
   const { refs, floatingStyles, context } = useFloating({
-    open: isOpen,
-    onOpenChange: setIsOpen,
+    open: isShown,
+    onOpenChange: handleOpenChange,
     placement: "top",
     whileElementsMounted: autoUpdate,
     middleware: [offset(8), flip(), shift()],
@@ -45,12 +47,18 @@ export function Tooltip({
 
   return (
     <>
-      <div ref={refs.setReference} {...getReferenceProps()}>
+      <div
+        ref={refs.setReference}
+        {...getReferenceProps()}
+        aria-describedby={isShown ? tooltipId : undefined}
+      >
         {children}
       </div>
       <FloatingPortal>
-        {isOpen && (
+        {isShown && (
           <div
+            id={tooltipId}
+            role="tooltip"
             ref={refs.setFloating}
             style={floatingStyles}
             {...getFloatingProps()}
@@ -62,4 +70,4 @@ export function Tooltip({
       </FloatingPortal>
     </>
   );
-}
+});
