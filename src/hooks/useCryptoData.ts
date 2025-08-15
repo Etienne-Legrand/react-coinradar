@@ -21,7 +21,7 @@ export const useCryptoData = (currency: Currency, exchange: string) => {
   const { data: topCoinsData, isLoading } = useQuery<CryptoCompareData[]>({
     queryKey: ["topCoins", currency, exchange],
     queryFn: () => fetchTopCoins(currency, exchange),
-    refetchInterval: 10000, // 10 secondes
+    refetchInterval: 30000, // 30 secondes
   });
 
   // S'assurer que coins est toujours un tableau
