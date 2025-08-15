@@ -1,71 +1,34 @@
 # Coin Radar
 
-Suivre les prix des 10 cryptomonnaies les plus capitalisées en un clic.
+Coin Radar est une extension Chromium qui permet de suivre les prix des 10 crypto les plus capitalisées en temps réel.
 
-Coin Radar est une extension simple et pratique pour suivre les prix des cryptomonnaies les plus capitalisées.
-Vous voyez immédiatement leurs variations (1h, 24h, 7j) et profitez d'un mode sombre pour plus de confort visuel.
-
-Gardez un œil sur le marché et ne ratez plus aucune opportunité.
+![Démo de l'application](src/assets/demo.png)
 
 ## Fonctionnalités
 
-- 🔄 Actualisation en temps réel (10s)
-- 💱 Choix de la devise (USD, EUR, BTC)
-- 🏛️ Choix de l'exchange
-- 🌓 Mode sombre/clair
-- 📊 Graphiques sur 7 jours
-- 📱 Interface design
+- Affiche les 10 crypto les plus capitalisées en temps réel.
+- Actualisation automatique des prix toutes les 10 secondes.
+- Choix de la devise d'affichage (USD, EUR, BTC).
+- Sélection de la plateforme d'échange pour les données de prix.
+- Graphiques sur 7 jours par crypto.
+- Mode sombre/clair.
 
 ## Prérequis
 
-- Node.js
+1. Node.js 18+
+2. pnpm (recommandé) ou npm
+3. Navigateur Chromium
 
-## Installation
+## Installation en mode développeur
 
-1. Cloner le projet
+1. Clonez ce dépôt sur votre machine locale.
+2. Installez les dépendances avec `pnpm install`.
+3. Construisez l'extension avec `pnpm build`.
+4. Ouvrez votre navigateur et accédez à `chrome://extensions/` sur Google Chrome.
+5. Activez le **Mode développeur** en haut à droite de la page.
+6. Cliquez sur le bouton **Charger l'extension non empaquetée** et sélectionnez le dossier `dist` généré.
+7. L'extension devrait maintenant apparaître dans la liste des extensions installées.
 
-```bash
-git clone https://github.com/votre-username/react-coinradar.git
-cd react-coinradar
-```
+## Utilisation
 
-2. Installer les dépendances
-
-```bash
-npm install
-```
-
-3. Lancer en mode développement
-
-```bash
-npm run dev
-```
-
-4. Construire l'extension
-
-```bash
-npm run build
-```
-
-## Installation de l'extension
-
-1. Ouvrir Chrome et aller à `chrome://extensions/`
-2. Activer le "Mode développeur"
-3. Cliquer sur "Charger l'extension non empaquetée"
-4. Sélectionner le dossier `dist` généré
-
-## Technologies utilisées
-
-- ⚛️ React
-- 🌪️ Vite
-- 🎨 TailwindCSS
-- 🔄 React Query
-- 📊 Recharts
-- 🌐 CryptoCompare API
-
-## Performance
-
-✨ Score 100/100 sur Google Lighthouse avec :
-
-- les fichiers de production du dossier `dist`
-- HTTPS avec un certificat SSL valide
+1. Cliquez sur l'icône de l'extension dans la barre d'outils de Chrome pour ouvrir l'interface.
