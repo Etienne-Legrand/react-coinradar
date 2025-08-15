@@ -51,7 +51,6 @@ export const Tooltip = memo(function Tooltip({
         ref={refs.setReference}
         {...getReferenceProps()}
         aria-describedby={isShown ? tooltipId : undefined}
-        className="h-max w-max"
       >
         {children}
       </div>

@@ -46,23 +46,25 @@ export function CoinRow({ coin, index, currency }: CoinRowProps) {
       {/* Nom */}
       <td className="px-4 py-2">
         <div className="flex items-center">
-          <Tooltip content={t("tooltips.viewOnCoinMarketCap")}>
-            <a
-              href={`https://coinmarketcap.com/currencies/${formatUrlSlug(
-                coin.name
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src={coin.imageUrl}
-                alt={coin.symbol}
-                className="mr-2 h-6 w-6 rounded-full transition-transform hover:scale-110"
-              />
-            </a>
-          </Tooltip>
+          <div className="mr-2 flex-shrink-0">
+            <Tooltip content={t("tooltips.viewOnCoinMarketCap")}>
+              <a
+                href={`https://coinmarketcap.com/currencies/${formatUrlSlug(
+                  coin.name
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={coin.imageUrl}
+                  alt={coin.symbol}
+                  className="h-6 w-6 rounded-full transition-transform hover:scale-110"
+                />
+              </a>
+            </Tooltip>
+          </div>
           <span className="dark:text-white">{coin.name}</span>
-          <span className="text- ml-2 font-normal text-gray-500 dark:text-gray-400">
+          <span className="ml-2 font-normal text-gray-500 dark:text-gray-400">
             {coin.symbol}
           </span>
         </div>
