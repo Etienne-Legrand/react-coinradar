@@ -7,8 +7,16 @@ export default defineConfig({
   build: {
     outDir: "dist",
     rollupOptions: {
+      input: {
+        index: "index.html",
+        background: "src/background/background.ts",
+      },
       output: {
-        entryFileNames: `assets/[name].js`,
+        entryFileNames: (chunkInfo) => {
+          return chunkInfo.name === "background"
+            ? "[name].js"
+            : "assets/[name].js";
+        },
         chunkFileNames: `assets/[name].js`,
         assetFileNames: `assets/[name].[ext]`,
       },

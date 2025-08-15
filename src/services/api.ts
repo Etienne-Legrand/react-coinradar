@@ -1,4 +1,5 @@
 import { Currency } from "../types/types";
+import { DEFAULT_CURRENCY, isValidCurrency } from "../hooks/useCurrency";
 
 // Types
 type HistoryDataPoint = {
@@ -16,8 +17,35 @@ type ExchangeData = {
   LogoUrl: string;
 };
 
+type PriceData = {
+  PRICE: number;
+  CHANGEPCTHOUR: number;
+};
+
 // Constantes
 const BASE_URL = "https://min-api.cryptocompare.com/data";
+
+// Fonction utilitaire pour récupérer la devise depuis le chrome.storage
+const getCurrencyFromStorage = async (): Promise<Currency> => {
+  const result = await chrome.storage.local.get(["currency"]);
+  const currency = result.currency;
+  return isValidCurrency(currency) ? currency : DEFAULT_CURRENCY;
+};
+
+// Récupère les données de prix pour le badge (BTC uniquement)
+export const fetchPriceData = async (): Promise<PriceData> => {
+  const currency = await getCurrencyFromStorage();
+  const response = await fetch(
+    `${BASE_URL}/pricemultifull?fsyms=BTC&tsyms=${currency}`
+  );
+
+  if (!response.ok) {
+    throw new Error(`API Error: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data.RAW.BTC[currency];
+};
 
 // Récupère les 10 cryptomonnaies les plus capitalisées
 export const fetchTopCoins = async (currency: Currency, exchange: string) => {
