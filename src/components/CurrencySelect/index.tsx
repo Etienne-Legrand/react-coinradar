@@ -1,4 +1,4 @@
-import { Currency } from "@/types/types";
+import { Currency } from "@/types";
 import { currencies } from "./config";
 import { Select } from "../Select";
 import { SelectOption } from "../Select/types";

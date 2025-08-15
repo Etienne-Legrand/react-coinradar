@@ -1,4 +1,4 @@
-import { Coin, Currency } from "@/types/types";
+import { Coin, Currency } from "@/types";
 import { SparklineChart } from "./SparklineChart";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "@/components/Tooltip";

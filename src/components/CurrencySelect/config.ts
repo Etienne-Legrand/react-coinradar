@@ -1,4 +1,4 @@
-import { Currency } from "@/types/types";
+import { Currency } from "@/types";
 
 type CurrencyConfig = {
   symbol: string;

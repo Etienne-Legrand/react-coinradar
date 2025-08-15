@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Currency } from "@/types/types";
+import { Currency } from "@/types";
 
 export const DEFAULT_CURRENCY: Currency = "USD";
 

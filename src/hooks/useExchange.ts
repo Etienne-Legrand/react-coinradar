@@ -1,6 +1,6 @@
 import { useCallback, useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Exchange } from "@/types/types";
+import { Exchange } from "@/types";
 import { fetchExchanges } from "@/services/api";
 
 const DEFAULT_EXCHANGE = "Binance";
