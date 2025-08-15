@@ -1,11 +1,12 @@
 import { useState, useCallback } from "react";
-import { Currency } from "@/types";
+import { type Currency } from "@/types";
+import { Currency as CurrencyConstant } from "@/constants";
 
-export const DEFAULT_CURRENCY: Currency = "USD";
+export const DEFAULT_CURRENCY: Currency = CurrencyConstant.USD;
 
 // Créer un Set à partir des valeurs du type Currency
 const VALID_CURRENCIES: ReadonlySet<string> = new Set<Currency>(
-  Object.values(Currency)
+  Object.values(CurrencyConstant)
 );
 
 export function isValidCurrency(value: unknown): value is Currency {

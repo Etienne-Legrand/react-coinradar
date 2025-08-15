@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useClickOutside } from "@/hooks/useClickOutside";
-import { SelectProps } from "./types";
+import { type SelectProps } from "./types";
 import { ImageWithFallback } from "../ImageWithFallback";
 import { Tooltip } from "../Tooltip";
 

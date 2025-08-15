@@ -1,4 +1,4 @@
-import { Currency } from "@/types";
+import { type Currency } from "@/types";
 import { DEFAULT_CURRENCY, isValidCurrency } from "@/hooks/useCurrency";
 
 // Types

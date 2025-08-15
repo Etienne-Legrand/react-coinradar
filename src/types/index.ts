@@ -1,3 +1,5 @@
+import { Currency as CurrencyConstant } from "@/constants";
+
 export interface Coin {
   name: string;
   symbol: string;
@@ -11,13 +13,7 @@ export interface Coin {
 
 export type ThemeMode = "light" | "dark";
 
-export const Currency = {
-  USD: "USD",
-  EUR: "EUR",
-  BTC: "BTC",
-} as const;
-
-export type Currency = (typeof Currency)[keyof typeof Currency];
+export type Currency = (typeof CurrencyConstant)[keyof typeof CurrencyConstant];
 
 export type Exchange = {
   id: string;

@@ -1,7 +1,7 @@
-import { Currency } from "@/types";
+import { type Currency } from "@/types";
 import { currencies } from "./config";
 import { Select } from "../Select";
-import { SelectOption } from "../Select/types";
+import { type SelectOption } from "../Select/types";
 import { useTranslation } from "react-i18next";
 
 interface CurrencySelectProps {

@@ -1,5 +1,5 @@
 import { useQuery, useQueries } from "@tanstack/react-query";
-import { Coin, Currency } from "@/types";
+import { type Coin, type Currency } from "@/types";
 import { fetchTopCoins, fetchCoinHistory } from "@/services/api";
 
 type CryptoCompareData = {
