@@ -1,6 +1,6 @@
 import { Exchange } from "@/types/types";
-import { Select } from "../Select";
-import { SelectOption } from "../Select/types";
+import { Select } from "./Select";
+import { SelectOption } from "./Select/types";
 import { useTranslation } from "react-i18next";
 
 interface ExchangeSelectProps {
