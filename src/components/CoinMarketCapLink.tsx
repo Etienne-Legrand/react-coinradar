@@ -23,6 +23,7 @@ export function CoinMarketCapLink({ coin }: CoinMarketCapLinkProps) {
         <img
           src={coin.imageUrl}
           alt={coin.symbol}
+          title={coin.name}
           className="h-6 w-6 rounded-full transition-transform hover:scale-110"
         />
       </a>

@@ -64,7 +64,7 @@ export function SparklineChart({ data, change }: SparklineChartProps) {
 
   return (
     <div className="h-14 w-32">
-      <Line options={options} data={chartData} />
+      <Line options={options} data={chartData} title="Sparkline Chart" />
     </div>
   );
 }

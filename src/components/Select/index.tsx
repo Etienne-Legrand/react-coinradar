@@ -53,6 +53,7 @@ export function Select({
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="flex h-10 w-full cursor-pointer items-center justify-between rounded-lg border border-gray-200 bg-gray-50 px-3 text-sm font-medium text-gray-700 transition-all hover:bg-gray-200 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+          type="button"
         >
           <div className="flex items-center truncate">
             {selectedOption ? (
@@ -105,6 +106,7 @@ export function Select({
                     ? "bg-gray-100 dark:bg-gray-700"
                     : "hover:bg-gray-100 dark:hover:bg-gray-700"
                 }`}
+              type="button"
             >
               {option.imageUrl && (
                 <ImageWithFallback
