@@ -2,9 +2,9 @@ import { CoinRow } from "./CoinRow";
 import { CurrencySelect } from "./CurrencySelect";
 import { ThemeToggle } from "./ThemeToggle";
 import { ExchangeSelect } from "./ExchangeSelect";
-import { useCryptoData } from "../hooks/useCryptoData";
-import { useCurrency } from "../hooks/useCurrency";
-import { useExchange } from "../hooks/useExchange";
+import { useCryptoData } from "@/hooks/useCryptoData";
+import { useCurrency } from "@/hooks/useCurrency";
+import { useExchange } from "@/hooks/useExchange";
 import { useTranslation } from "react-i18next";
 
 export function CoinList() {

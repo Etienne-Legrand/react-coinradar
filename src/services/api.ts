@@ -1,5 +1,5 @@
-import { Currency } from "../types/types";
-import { DEFAULT_CURRENCY, isValidCurrency } from "../hooks/useCurrency";
+import { Currency } from "@/types/types";
+import { DEFAULT_CURRENCY, isValidCurrency } from "@/hooks/useCurrency";
 
 // Types
 type HistoryDataPoint = {

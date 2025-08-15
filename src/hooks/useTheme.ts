@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ThemeMode } from "../types/types";
+import { ThemeMode } from "@/types/types";
 
 export function useTheme() {
   // Récupérer le thème sauvegardé ou utiliser le thème par défaut

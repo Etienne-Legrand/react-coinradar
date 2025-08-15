@@ -1,4 +1,4 @@
-import { fetchPriceData } from "../services/api";
+import { fetchPriceData } from "@/services/api";
 
 // Configuration
 const CONFIG = {

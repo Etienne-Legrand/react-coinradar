@@ -1,7 +1,7 @@
-import { Coin, Currency } from "../types/types";
+import { Coin, Currency } from "@/types/types";
 import { SparklineChart } from "./SparklineChart";
 import { useTranslation } from "react-i18next";
-import { Tooltip } from "../components/Tooltip";
+import { Tooltip } from "@/components/Tooltip";
 
 interface CoinRowProps {
   readonly coin: Coin;
