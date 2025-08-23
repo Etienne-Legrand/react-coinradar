@@ -1,24 +1,6 @@
 import { useQuery, useQueries } from "@tanstack/react-query";
-import { type Coin, type Currency } from "@/types";
+import { type Coin, type Currency, type ApiCoinData } from "@/types";
 import { fetchTopCoins, fetchCoinHistory } from "@/services/api";
-
-type RawCoinData = {
-  PRICE: number;
-  CHANGEPCTHOUR: number;
-  CHANGEPCT24HOUR: number;
-  IMAGEURL?: string;
-};
-
-export type ApiCoinData = {
-  CoinInfo: {
-    Name: string;
-    FullName: string;
-    ImageUrl: string;
-  };
-  RAW: {
-    [currency: string]: RawCoinData;
-  };
-};
 
 export const useCryptoData = (currency: Currency, exchange: string) => {
   const { data: topCoins, isLoading } = useQuery<ApiCoinData[]>({

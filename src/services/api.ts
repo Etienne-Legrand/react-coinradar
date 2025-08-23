@@ -1,34 +1,13 @@
-import { type Currency } from "@/types";
+import {
+  type RawCoinData,
+  type Currency,
+  PriceData,
+  HistoryDataPoint,
+  ExchangeApiResponse,
+  ExchangeData,
+  ApiCoinData,
+} from "@/types";
 import { DEFAULT_CURRENCY, isValidCurrency } from "@/hooks/useCurrency";
-import { type ApiCoinData } from "@/hooks/useCryptoData";
-
-// Types
-type RawCoinData = {
-  PRICE: number;
-  CHANGEPCTHOUR: number;
-  CHANGEPCT24HOUR: number;
-  IMAGEURL?: string;
-};
-
-type HistoryDataPoint = {
-  close: number;
-  time: number;
-};
-
-type ExchangeApiResponse = {
-  Data: Record<string, ExchangeData>;
-};
-
-type ExchangeData = {
-  Name: string;
-  Url: string;
-  LogoUrl: string;
-};
-
-type PriceData = {
-  PRICE: number;
-  CHANGEPCTHOUR: number;
-};
 
 // Constantes
 const BASE_URL = "https://min-api.cryptocompare.com/data";
@@ -83,9 +62,9 @@ export const fetchTopCoins = async (
   // Vérifier si Bitcoin (BTC) est présent dans les résultats
   const hasBTC = coins.some((coin) => coin?.CoinInfo?.Name === "BTC");
 
-  // if (hasBTC && coins.length > 0) {
-  //   return coins;
-  // }
+  if (hasBTC && coins.length > 0) {
+    return coins;
+  }
 
   // Fallback: utiliser la liste prédéfinie si BTC n'est pas présent
   return await fetchFallbackCoins(currency, exchange);
