@@ -8,9 +8,7 @@ import {
   ApiCoinData,
 } from "@/types";
 import { DEFAULT_CURRENCY, isValidCurrency } from "@/hooks/useCurrency";
-
-// Constantes
-const BASE_URL = "https://min-api.cryptocompare.com/data";
+import { API_URL, CRYPTOCOMPARE_BASE_URL } from "@/constants";
 
 // Liste de fallback des 10 cryptomonnaies les plus populaires
 const FALLBACK_COINS = [
@@ -37,7 +35,7 @@ const getCurrencyFromStorage = async (): Promise<Currency> => {
 export const fetchPriceData = async (): Promise<PriceData> => {
   const currency = await getCurrencyFromStorage();
   const response = await fetch(
-    `${BASE_URL}/pricemultifull?fsyms=BTC&tsyms=${currency}`
+    `${API_URL}/pricemultifull?fsyms=BTC&tsyms=${currency}`
   );
 
   if (!response.ok) {
@@ -54,7 +52,7 @@ export const fetchTopCoins = async (
   exchange: string
 ): Promise<ApiCoinData[]> => {
   const response = await fetch(
-    `${BASE_URL}/top/mktcapfull?limit=10&tsym=${currency}&exchange=${exchange}`
+    `${API_URL}/top/mktcapfull?limit=10&tsym=${currency}&exchange=${exchange}`
   );
   const data = await response.json();
   const coins: ApiCoinData[] = data.Data || [];
@@ -77,7 +75,7 @@ const fetchFallbackCoins = async (
 ): Promise<ApiCoinData[]> => {
   const symbols = FALLBACK_COINS.map((c) => c.symbol).join(",");
   const response = await fetch(
-    `${BASE_URL}/pricemultifull?fsyms=${symbols}&tsyms=${currency}&exchange=${exchange}`
+    `${API_URL}/pricemultifull?fsyms=${symbols}&tsyms=${currency}&exchange=${exchange}`
   );
 
   if (!response.ok) {
@@ -120,7 +118,7 @@ export const fetchCoinHistory = async (
 ) => {
   const nbOfHours = 7 * 24;
   const historyResponse = await fetch(
-    `${BASE_URL}/v2/histohour?fsym=${symbol}&tsym=${currency}&limit=${nbOfHours}&exchange=${exchange}`
+    `${API_URL}/v2/histohour?fsym=${symbol}&tsym=${currency}&limit=${nbOfHours}&exchange=${exchange}`
   );
   const historyData = await historyResponse.json();
   return historyData?.Data?.Data?.map((d: HistoryDataPoint) => d.close) || [];
@@ -128,14 +126,14 @@ export const fetchCoinHistory = async (
 
 // Récupère la liste des exchanges
 export const fetchExchanges = async () => {
-  const response = await fetch(`${BASE_URL}/exchanges/general`);
+  const response = await fetch(`${API_URL}/exchanges/general`);
   const data = (await response.json()) as ExchangeApiResponse;
   return Object.entries(data.Data).map(
     ([id, details]: [string, ExchangeData]) => ({
       id,
       name: details.Name,
       url: details.Url,
-      image: `https://www.cryptocompare.com${details.LogoUrl}`,
+      image: `${CRYPTOCOMPARE_BASE_URL}${details.LogoUrl}`,
     })
   );
 };

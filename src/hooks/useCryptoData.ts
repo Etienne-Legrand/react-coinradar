@@ -1,6 +1,7 @@
 import { useQuery, useQueries } from "@tanstack/react-query";
 import { type Coin, type Currency, type ApiCoinData } from "@/types";
 import { fetchTopCoins, fetchCoinHistory } from "@/services/api";
+import { CRYPTOCOMPARE_BASE_URL } from "@/constants";
 
 export const useCryptoData = (currency: Currency, exchange: string) => {
   const { data: topCoins, isLoading } = useQuery<ApiCoinData[]>({
@@ -30,7 +31,7 @@ export const useCryptoData = (currency: Currency, exchange: string) => {
       return {
         name: coin.CoinInfo.FullName,
         symbol: coin.CoinInfo.Name,
-        imageUrl: `https://www.cryptocompare.com${coin.CoinInfo.ImageUrl}`,
+        imageUrl: `${CRYPTOCOMPARE_BASE_URL}${coin.CoinInfo.ImageUrl}`,
         price: coin.RAW[currency].PRICE,
         change1h: coin.RAW[currency].CHANGEPCTHOUR,
         change24h: coin.RAW[currency].CHANGEPCT24HOUR,
