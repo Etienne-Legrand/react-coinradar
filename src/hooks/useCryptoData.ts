@@ -1,37 +1,21 @@
 import { useQuery, useQueries } from "@tanstack/react-query";
-import { type Coin, type Currency } from "@/types";
+import { type Coin, type Currency, type ApiCoinData } from "@/types";
 import { fetchTopCoins, fetchCoinHistory } from "@/services/api";
-
-type CryptoCompareData = {
-  CoinInfo: {
-    Name: string;
-    FullName: string;
-    ImageUrl: string;
-  };
-  RAW: {
-    [key in Currency]: {
-      PRICE: number;
-      CHANGEPCTHOUR: number;
-      CHANGEPCT24HOUR: number;
-    };
-  };
-};
+import { CRYPTOCOMPARE_BASE_URL } from "@/constants";
 
 export const useCryptoData = (currency: Currency, exchange: string) => {
-  const { data: topCoinsData, isLoading } = useQuery<CryptoCompareData[]>({
+  const { data: topCoins, isLoading } = useQuery<ApiCoinData[]>({
     queryKey: ["topCoins", currency, exchange],
     queryFn: () => fetchTopCoins(currency, exchange),
     refetchInterval: 30000, // 30 secondes
   });
 
   // S'assurer que coins est toujours un tableau
-  const coins = Array.isArray(topCoinsData) ? topCoinsData : [];
+  const coins = Array.isArray(topCoins) ? topCoins : [];
 
   const historicalQueries = useQueries({
     queries: coins
-      .filter((coin): coin is CryptoCompareData =>
-        Boolean(coin?.CoinInfo?.Name)
-      )
+      .filter((coin): coin is ApiCoinData => Boolean(coin?.CoinInfo?.Name))
       .map((coin) => ({
         queryKey: ["coinHistory", coin.CoinInfo.Name, currency, exchange],
         queryFn: () => fetchCoinHistory(coin.CoinInfo.Name, currency, exchange),
@@ -39,27 +23,32 @@ export const useCryptoData = (currency: Currency, exchange: string) => {
       })),
   });
 
-  const processedCoins: Coin[] = coins
+  const formattedCoins: Coin[] = coins
     .filter((coin) => coin?.CoinInfo?.Name && coin?.RAW?.[currency])
     .map((coin, index) => {
-      const historicalData = historicalQueries[index]?.data ?? [];
+      const priceHistory = historicalQueries[index]?.data ?? [];
 
       return {
         name: coin.CoinInfo.FullName,
         symbol: coin.CoinInfo.Name,
-        imageUrl: `https://www.cryptocompare.com${coin.CoinInfo.ImageUrl}`,
+        imageUrl: `${CRYPTOCOMPARE_BASE_URL}${coin.CoinInfo.ImageUrl}`,
         price: coin.RAW[currency].PRICE,
         change1h: coin.RAW[currency].CHANGEPCTHOUR,
         change24h: coin.RAW[currency].CHANGEPCT24HOUR,
-        sparklineData: historicalData,
-        change7j:
-          historicalData.length > 1
-            ? ((historicalData[historicalData.length - 1] - historicalData[0]) /
-                historicalData[0]) *
-              100
-            : 0,
+        sparklineData: priceHistory,
+        change7j: calculateChange7j(priceHistory),
       };
     });
 
-  return { coins: processedCoins, isLoading };
+  return { coins: formattedCoins, isLoading };
 };
+
+/**
+ * Calcule le pourcentage de variation du prix sur 7 jours
+ */
+function calculateChange7j(history: number[]): number {
+  if (history.length > 1) {
+    return ((history[history.length - 1] - history[0]) / history[0]) * 100;
+  }
+  return 0;
+}

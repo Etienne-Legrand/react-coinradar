@@ -1,29 +1,28 @@
-import { type Currency } from "@/types";
+import {
+  type RawCoinData,
+  type Currency,
+  PriceData,
+  HistoryDataPoint,
+  ExchangeApiResponse,
+  ExchangeData,
+  ApiCoinData,
+} from "@/types";
 import { DEFAULT_CURRENCY, isValidCurrency } from "@/hooks/useCurrency";
+import { API_URL, CRYPTOCOMPARE_BASE_URL } from "@/constants";
 
-// Types
-type HistoryDataPoint = {
-  close: number;
-  time: number;
-};
-
-type ExchangeApiResponse = {
-  Data: Record<string, ExchangeData>;
-};
-
-type ExchangeData = {
-  Name: string;
-  Url: string;
-  LogoUrl: string;
-};
-
-type PriceData = {
-  PRICE: number;
-  CHANGEPCTHOUR: number;
-};
-
-// Constantes
-const BASE_URL = "https://min-api.cryptocompare.com/data";
+// Liste de fallback des 10 cryptomonnaies les plus populaires
+const FALLBACK_COINS = [
+  { symbol: "BTC", fullName: "Bitcoin" },
+  { symbol: "ETH", fullName: "Ethereum" },
+  { symbol: "XRP", fullName: "XRP" },
+  { symbol: "USDT", fullName: "Tether" },
+  { symbol: "BNB", fullName: "BNB" },
+  { symbol: "SOL", fullName: "Solana" },
+  { symbol: "USDC", fullName: "USD Coin" },
+  { symbol: "DOGE", fullName: "Dogecoin" },
+  { symbol: "TRX", fullName: "TRON" },
+  { symbol: "ADA", fullName: "Cardano" },
+];
 
 // Fonction utilitaire pour récupérer la devise depuis le chrome.storage
 const getCurrencyFromStorage = async (): Promise<Currency> => {
@@ -36,7 +35,7 @@ const getCurrencyFromStorage = async (): Promise<Currency> => {
 export const fetchPriceData = async (): Promise<PriceData> => {
   const currency = await getCurrencyFromStorage();
   const response = await fetch(
-    `${BASE_URL}/pricemultifull?fsyms=BTC&tsyms=${currency}`
+    `${API_URL}/pricemultifull?fsyms=BTC&tsyms=${currency}`
   );
 
   if (!response.ok) {
@@ -48,12 +47,67 @@ export const fetchPriceData = async (): Promise<PriceData> => {
 };
 
 // Récupère les 10 cryptomonnaies les plus capitalisées
-export const fetchTopCoins = async (currency: Currency, exchange: string) => {
+export const fetchTopCoins = async (
+  currency: Currency,
+  exchange: string
+): Promise<ApiCoinData[]> => {
   const response = await fetch(
-    `${BASE_URL}/top/mktcapfull?limit=10&tsym=${currency}&exchange=${exchange}`
+    `${API_URL}/top/mktcapfull?limit=10&tsym=${currency}&exchange=${exchange}`
   );
   const data = await response.json();
-  return data.Data || [];
+  const coins: ApiCoinData[] = data.Data || [];
+
+  // Vérifier si Bitcoin (BTC) est présent dans les résultats
+  const hasBTC = coins.some((coin) => coin?.CoinInfo?.Name === "BTC");
+
+  if (hasBTC && coins.length > 0) {
+    return coins;
+  }
+
+  // Fallback: utiliser la liste prédéfinie si BTC n'est pas présent
+  return await fetchFallbackCoins(currency, exchange);
+};
+
+// Fonction de fallback pour récupérer les données des coins prédéfinis
+const fetchFallbackCoins = async (
+  currency: Currency,
+  exchange: string
+): Promise<ApiCoinData[]> => {
+  const symbols = FALLBACK_COINS.map((c) => c.symbol).join(",");
+  const response = await fetch(
+    `${API_URL}/pricemultifull?fsyms=${symbols}&tsyms=${currency}&exchange=${exchange}`
+  );
+
+  if (!response.ok) {
+    throw new Error(`API Error: ${response.status}`);
+  }
+
+  const coins = await response.json();
+
+  // Transformer les données pour correspondre au format attendu par useCryptoData
+  const fallbackCoins: ApiCoinData[] = FALLBACK_COINS.map(
+    ({ symbol, fullName }): ApiCoinData | null => {
+      const coinData: RawCoinData = coins.RAW?.[symbol]?.[currency];
+      if (!coinData) return null;
+
+      return {
+        CoinInfo: {
+          Name: symbol,
+          FullName: fullName,
+          ImageUrl: coinData.IMAGEURL ?? "",
+        },
+        RAW: {
+          [currency]: {
+            PRICE: coinData.PRICE,
+            CHANGEPCTHOUR: coinData.CHANGEPCTHOUR,
+            CHANGEPCT24HOUR: coinData.CHANGEPCT24HOUR,
+          },
+        },
+      };
+    }
+  ).filter((coin): coin is ApiCoinData => coin !== null);
+
+  return fallbackCoins;
 };
 
 // Récupère l'historique des prix sur 7 jours
@@ -64,7 +118,7 @@ export const fetchCoinHistory = async (
 ) => {
   const nbOfHours = 7 * 24;
   const historyResponse = await fetch(
-    `${BASE_URL}/v2/histohour?fsym=${symbol}&tsym=${currency}&limit=${nbOfHours}&exchange=${exchange}`
+    `${API_URL}/v2/histohour?fsym=${symbol}&tsym=${currency}&limit=${nbOfHours}&exchange=${exchange}`
   );
   const historyData = await historyResponse.json();
   return historyData?.Data?.Data?.map((d: HistoryDataPoint) => d.close) || [];
@@ -72,16 +126,14 @@ export const fetchCoinHistory = async (
 
 // Récupère la liste des exchanges
 export const fetchExchanges = async () => {
-  const response = await fetch(
-    "https://min-api.cryptocompare.com/data/exchanges/general"
-  );
+  const response = await fetch(`${API_URL}/exchanges/general`);
   const data = (await response.json()) as ExchangeApiResponse;
   return Object.entries(data.Data).map(
     ([id, details]: [string, ExchangeData]) => ({
       id,
       name: details.Name,
       url: details.Url,
-      image: `https://www.cryptocompare.com${details.LogoUrl}`,
+      image: `${CRYPTOCOMPARE_BASE_URL}${details.LogoUrl}`,
     })
   );
 };
